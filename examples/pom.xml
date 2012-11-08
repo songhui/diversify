@@ -31,8 +31,6 @@
   </dependencies>
   
    <build>
-       
-       
         <plugins>
             <plugin>
 				  <groupId>fr.irisa.diversify</groupId>
@@ -48,10 +46,7 @@
 					      </execution>
 					  </executions>
             </plugin>
-        
         </plugins>
-        
-        
     </build>
   
 </project>
