@@ -1,15 +1,21 @@
 package p3;
 
+import org.kevoree.framework.AbstractComponentType;
+
+import junit.framework.TestCase;
 import fr.irisa.diversify.annotations.Perforable;
 
 public class A {
 
 	public A() {
+		
 	}
 
 	public static void main(String[] args) {
 		new A().foo();
 	}
+	
+	TestCase a;
 
 	@Perforable(step = 5)
 	public void foo() {
@@ -33,4 +39,5 @@ public class A {
 
 	}
 
+	
 }

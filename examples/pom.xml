@@ -14,20 +14,30 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+        <kevoree.version>1.9.0</kevoree.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>fr.irisa.diversify</groupId>
-  <artifactId>annotations-framework</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+	  <artifactId>annotations-framework</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
     </dependency>
-    
+       <dependency>
+            <groupId>org.kevoree.tools</groupId>
+            <artifactId>org.kevoree.tools.javase.framework</artifactId>
+            <version>${kevoree.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kevoree.tools</groupId>
+            <artifactId>org.kevoree.tools.annotation.api</artifactId>
+            <version>${kevoree.version}</version>
+        </dependency>
   </dependencies>
   
    <build>
@@ -47,6 +57,65 @@
 					  </executions>
             </plugin>
         </plugins>
-    </build>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									fr.irisa.diversify
+        								</groupId>
+        								<artifactId>
+        									mojo-mutator-maven-plugins
+        								</artifactId>
+        								<versionRange>
+        									[0.0.1-SNAPSHOT,)
+        								</versionRange>
+        								<goals>
+        									<goal>
+        										generate-sources
+        									</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
+   </build>
   
+      <repositories>
+        <repository>
+            <id>kevoree-release</id>
+            <url>http://maven.kevoree.org/release</url>
+        </repository>
+        <repository>
+            <id>kevoree-snapshots</id>
+            <url>http://maven.kevoree.org/snapshots</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>plugin.kevoree-github</id>
+            <url>http://maven.kevoree.org/release</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>plugin.kevoree-snapshots</id>
+            <url>http://maven.kevoree.org/snapshots</url>
+        </pluginRepository>
+      
+    </pluginRepositories>
 </project>
