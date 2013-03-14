@@ -2,7 +2,6 @@ package main;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +26,6 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.err.println("cl = " +System.getProperty("java.class.path"));
 		
 		List<File> files = new ArrayList<File>();
 		files.add(new File(srcfolderstatic));
@@ -83,20 +81,33 @@ public class Test {
 		ProcessingManager pm = new QueueProcessingManager(factory);
 		PerforableProcessor tp = new PerforableProcessor();
 		pm.addProcessor(tp);
+		//TODO Not all;
+		TypeReferenceScanner refall = new TypeReferenceScanner();
+		refall.scan(Factory.getLauchingFactory().Package().getAllRoots());
 		for (CtSimpleType s : Factory.getLauchingFactory().Class().getAll()) {
 			String newName = s.getSimpleName() + "Mutant"
 					+ Math.abs(new Random().nextInt());
+			
+			String oldName = s.getQualifiedName();
 			s.setSimpleName(newName);
+			
 			Factory.getLauchingFactory();
-			for (CtTypeReference ref : s.getReferencedTypes()) {
-				if (ref.getQualifiedName().equals(s.getQualifiedName()))
+			for (CtTypeReference ref : refall.getReferences()) {
+				if (ref.getQualifiedName().equals(oldName)){
+					
 					ref.setSimpleName(newName);
+				}
 				File file = s.getPosition().getCompilationUnit().getFile();
 				File newFile = new File(file.getParent() + File.separatorChar
 						+ newName + ".java");
 				s.getPosition().getCompilationUnit().setFile(newFile);
 			}
+			
+			
 		}
+
+		
+		
 		if (srcgenfolder.exists()) {
 			try {
 				delete(srcgenfolder);

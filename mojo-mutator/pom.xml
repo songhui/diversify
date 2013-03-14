@@ -20,7 +20,7 @@
     <dependency>
         <groupId>fr.inria.gforge.spoon</groupId>
         <artifactId>spoon-core</artifactId>
-        <version>1.4.2</version>
+        <version>1.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>fr.irisa.diversify</groupId>

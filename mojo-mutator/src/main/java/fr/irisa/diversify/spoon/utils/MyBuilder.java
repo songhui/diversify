@@ -25,6 +25,7 @@ public class MyBuilder extends SpoonBuildingManager {
 				.getComplianceLevel();
 		boolean srcSuccess, templateSuccess;
 		long t = System.currentTimeMillis();
+		
 		compiler = new MyJDTBuilder();
 		
 		

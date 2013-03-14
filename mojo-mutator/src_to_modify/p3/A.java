@@ -1,10 +1,14 @@
 package p3;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import fr.irisa.diversify.annotations.Perforable;
 
-public class A {
+public class A implements KeyListener{
 
 	public A() {
+		k= this;
 	}
 
 	public static void main(String[] args) {
@@ -18,6 +22,8 @@ public class A {
 			j++;
 		}
 		System.err.println(j);
+		
+		
 
 	}
 
@@ -31,6 +37,23 @@ public class A {
 			System.err.println(j);
 		}
 
+	}
+	
+	KeyListener k ;
+
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

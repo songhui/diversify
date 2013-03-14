@@ -27,6 +27,8 @@ import java.util.List;
 import main.Test;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -35,8 +37,9 @@ import org.apache.maven.project.MavenProject;
  * Goal which touches a timestamp file.
  * 
  * @goal generate-sources
- * 
  * @phase process-sources
+ * @requiresDependencyResolution compile
+ * @requiresDependencyCollection compile
  */
 public class MyMojo extends AbstractMojo {
 	/**
@@ -55,6 +58,8 @@ public class MyMojo extends AbstractMojo {
 	 * @parameter expression="${project}"
 	 * @required
 	 * @readonly
+	 * @requiresDependencyResolution compile
+	 * @requiresDependencyCollection compile
 	 */
 	private MavenProject project;
 
@@ -69,17 +74,25 @@ public class MyMojo extends AbstractMojo {
 		String old_classpath = System.getProperty("java.class.path");
 		StringBuffer newclasspath = new StringBuffer();
 		int i = 0;		
-		for (Artifact artifact : project.getDependencyArtifacts()) {
+		
 			try {
-				urls.add(artifact.getFile().toURI().toURL());
-				newclasspath.append(artifact.getFile().getAbsolutePath());
-				i++;
-				if (i<project.getDependencyArtifacts().size())
-					newclasspath.append(File.pathSeparatorChar);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
+				for (String artifact : project.getCompileClasspathElements()){
+					
+					try {
+						urls.add(new File(artifact).toURI().toURL());
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					newclasspath.append(artifact);
+					i++;
+					if (i<project.getDependencyArtifacts().size())
+						newclasspath.append(File.pathSeparatorChar);
+					}
+			} catch (DependencyResolutionRequiredException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		}
 
 		try {
 			urls.add(new File(project.getBuild().getOutputDirectory()).toURI()
@@ -87,6 +100,7 @@ public class MyMojo extends AbstractMojo {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+			
 		System.setProperty("java.class.path",newclasspath.toString());
 		Thread.currentThread()
 				.setContextClassLoader(
