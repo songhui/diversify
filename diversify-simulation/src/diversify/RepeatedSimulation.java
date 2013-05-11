@@ -8,7 +8,12 @@ public class RepeatedSimulation implements ISimulation<List<int[][]>> {
 
   final int NUMBEROFRUNS = 20;
   List<int[][]> result = new ArrayList<int[][]>();
+  
+  /**
+   * Original one
+   */
   ISimulation<int[][]> sim = new PlatformFailureSimulation();
+  //ISimulation<int[][]> sim = new ServiceDirectedFailureSimulation();
   
   @Override
   public ISimulation<List<int[][]>> run() {

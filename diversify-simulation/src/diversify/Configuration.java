@@ -5,21 +5,23 @@ import java.util.Comparator;
 /** configures the simulation */
 public class Configuration {
   /** the number of apps in the system */
-  int NAPPS = 400;
+  int NAPPS = 1000;
 
   /** the number of platforms in the system */
   int NPLATFORMS = 25;
 
   /** the number of services in the systems*/
-  int NSERVICES = 15;
+  int NSERVICES = 100;
 
   /** platforms have [1,NMAXSERVICESPLATFORMS] services 
    * with a uniform distribution */
-  int NMAXSERVICESPLATFORMS = 10;
+  int NMAXSERVICESPLATFORMS = 30;
 
   /** Applications have [1,NMAXSERVICESAPP] services 
    * with a uniform distribution */
   int NMAXSERVICESAPP = 3;
+  
+  int NDEP = 0;
 
   /** orders platforms for sake of ordered platform failures */
   PlatformOrdering ordering = PlatformOrdering.LEAST_CONNECTED_FIRST;
