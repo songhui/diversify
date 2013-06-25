@@ -31,7 +31,7 @@ class NewMain {
 		ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
-		val sim = new RepeatedSimulation(200)
+		val sim = new RepeatedSimulation(50) //200
 		
 		//which simulator
 		sim.sim = new PlatformFailureSimulation()		
@@ -39,7 +39,7 @@ class NewMain {
 		
 		val result = sim.run().simulationResult
 		
-    	//new Plot().run(result, sim.description())
+    	new Plot().run(result, sim.description())
     	val plain = getPlainResult(result)
     	val average = getAverage(plain)
     	var i = 0
