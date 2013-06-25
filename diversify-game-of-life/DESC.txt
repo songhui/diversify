@@ -1,0 +1,21 @@
+- Design:
+
+Suppose the services have dependencies between each other, e.g., to provide service 1,
+you must first provide service 2, 3. Any platform must satisfy the service dependencies, 
+but the applications do not need to explicitly specify the required services and all their
+dependencies. 
+
+This is an analog to the plugins of Eclipse platforms.
+
+- Implementation:
+ServiceDependencies: Generate dependencies between services, as a DAG
+MutualisticGraph (changed): when creating platforms, make sure all to satisfy the dependency.
+
+- Configuration:
+Configuration::NDEP: How may links to create between services
+
+- Results:
+NDEP=0: Same as original experiment
+NDEP is low: it seems that that the curve goes down a bit more quickly (not very sure...)
+NDEP is high: from smooth curve to staircase curve. Probably because the platforms are 
+homogenized
