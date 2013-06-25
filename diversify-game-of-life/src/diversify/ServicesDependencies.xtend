@@ -68,7 +68,7 @@ class ServicesDependencies {
 		for(p : platforms){
 			val original = new ArrayList<Service>(p.providedServices)
 			p.providedServices.clear
-			var tries = original.size() * 2
+			var tries = original.size() * 10
 			while(p.providedServices.size < config.NMAXSERVICESPLATFORMS && tries > 0){
 				val seed = original.get(random.nextInt(original.size()))
 				if(!p.providedServices.contains(seed)){

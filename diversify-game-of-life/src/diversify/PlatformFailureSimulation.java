@@ -31,6 +31,9 @@ public class PlatformFailureSimulation implements ISimulation<int[][]> {
     	depender.reCreatePlatforms(g.platforms, g.services);
     }
     
+    MutatePlatformGraph.dissims.add(
+    		MutatePlatformGraph.getPltfDiversity(g.platforms));
+    
     data = new int[g.platforms.size()+1][2];
     Collections.sort(g.platforms, config.ordering);
     List<Platform> p1 = new ArrayList<Platform>();

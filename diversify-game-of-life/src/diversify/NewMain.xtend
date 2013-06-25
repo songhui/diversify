@@ -18,20 +18,20 @@ class NewMain {
 			ordering = PlatformOrdering::DOCUMENT_ORDER
 		]
 		var mutator = new MutatePlatformGraph(config)[
-			NSEED = 1
-			NMUTATION = 3
+			NSEED = 5
+			NMUTATION = 10
 		]
 		var depender = new ServicesDependencies(config)[
-			NDEP = 1000
+			NDEP = 400
 		]
 		
 		
 		//MutatePlatformGraph::setInstance(mutator)     //mute (not commented) or random (commented)
 		
-		//ServicesDependencies::setInstance(depender)   //dependent or not (commented)
+		ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
-		val sim = new RepeatedSimulation(50)
+		val sim = new RepeatedSimulation(200)
 		
 		//which simulator
 		sim.sim = new PlatformFailureSimulation()		
@@ -39,9 +39,21 @@ class NewMain {
 		
 		val result = sim.run().simulationResult
 		
-    	new Plot().run(result, sim.description())
+    	//new Plot().run(result, sim.description())
     	val plain = getPlainResult(result)
-    	System::out.println(getAverage(plain))
+    	val average = getAverage(plain)
+    	var i = 0
+    	
+    	
+    	val dissims = MutatePlatformGraph::dissims
+    	
+    	println(dissims)
+    	println(dissims.reduce(x,y|x+y)/dissims.size)
+    	
+    	for(x : average){
+    		System::out.println('''«i»	«x»''')
+    		i = i + 1
+    	}
     	
 		
 	}

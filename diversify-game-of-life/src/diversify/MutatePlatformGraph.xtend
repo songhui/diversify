@@ -1,5 +1,6 @@
 package diversify
 
+
 import org.eclipse.xtext.xbase.lib.Procedures$Procedure1
 import java.util.Random
 import java.util.ArrayList
@@ -8,6 +9,7 @@ import java.util.List
 class MutatePlatformGraph{
 	
 	public static MutatePlatformGraph INSTANCE = null
+	public static List<Double> dissims = new ArrayList<Double>()
 	def static setInstance(MutatePlatformGraph instance){
 		INSTANCE = instance
 	}
@@ -31,7 +33,10 @@ class MutatePlatformGraph{
 		
 		serva1.retainAll(servb)
 		serva2.addAll(servb)
-		return 1 - serva1.size().doubleValue/serva2.size()
+		if(serva2.size == 0)
+			0
+		else 
+			1 - serva1.size().doubleValue/serva2.size()
 	}
 	
 	def static getPltfDiversity(List<Platform> ps){
@@ -47,7 +52,7 @@ class MutatePlatformGraph{
 		platforms.clear
 		platforms.addAll(left)
 		for(x : NSEED..config.NPLATFORMS-1){
-			val np = new Platform('''Platform«x»''')
+			val np = new Platform('''Platform «x»  ''')
 			val seed = platforms.get(random.nextInt(platforms.size))
 			np.providedServices = new ArrayList<Service>(seed.providedServices)
 			val mutateTimes = random.nextInt(NMUTATION)
