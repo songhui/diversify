@@ -37,9 +37,12 @@ abstract class PlatformOrdering implements Comparator<Platform>{
 	  public static final PlatformOrdering DOCUMENT_ORDER = new PlatformOrdering() {
 		    @Override
 		    public int compare(Platform o, Platform thi) {
-		      return o.name.compareTo(thi.name);
+		      return Integer.compare(o.hashCode(), thi.hashCode());
+		      //return o.hashCode().compareTo(thi.hashCode());
 		    }
 		  };
+		  
+	  
 
 	}
 

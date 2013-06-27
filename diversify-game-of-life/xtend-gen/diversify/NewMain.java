@@ -5,9 +5,9 @@ import diversify.ISimulation;
 import diversify.MutatePlatformGraph;
 import diversify.PlatformFailureSimulation;
 import diversify.PlatformOrdering;
-import diversify.Plot;
 import diversify.RepeatedSimulation;
 import diversify.ServicesDependencies;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -41,29 +41,28 @@ public class NewMain {
     final Configuration config = NewMain.createConfiguration(_function);
     final Procedure1<MutatePlatformGraph> _function_1 = new Procedure1<MutatePlatformGraph>() {
         public void apply(final MutatePlatformGraph it) {
-          it.NSEED = 5;
-          it.NMUTATION = 10;
+          it.NSEED = 1;
+          it.NMUTATION = 2;
+          it.NADDNEW = 3;
+          it.NREMOVE = 3;
         }
       };
     MutatePlatformGraph _mutatePlatformGraph = new MutatePlatformGraph(config, _function_1);
     MutatePlatformGraph mutator = _mutatePlatformGraph;
     final Procedure1<ServicesDependencies> _function_2 = new Procedure1<ServicesDependencies>() {
         public void apply(final ServicesDependencies it) {
-          it.NDEP = 400;
+          it.NDEP = 100;
         }
       };
     ServicesDependencies _servicesDependencies = new ServicesDependencies(config, _function_2);
     ServicesDependencies depender = _servicesDependencies;
     ServicesDependencies.setInstance(depender);
-    RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(50);
+    RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(200);
     final RepeatedSimulation sim = _repeatedSimulation;
     PlatformFailureSimulation _platformFailureSimulation = new PlatformFailureSimulation();
     sim.sim = _platformFailureSimulation;
     ISimulation<List<int[][]>> _run = sim.run();
     final List<int[][]> result = _run.getSimulationResult();
-    Plot _plot = new Plot();
-    String _description = sim.description();
-    _plot.run(result, _description);
     final ArrayList<ArrayList<Integer>> plain = NewMain.getPlainResult(result);
     final List<Double> average = NewMain.getAverage(plain);
     int i = 0;
@@ -79,17 +78,20 @@ public class NewMain {
     int _size = dissims.size();
     double _divide = ((_reduce).doubleValue() / _size);
     InputOutput.<Double>println(Double.valueOf(_divide));
+    final PrintStream writer = System.out;
     for (final Double x : average) {
       {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append(i, "");
         _builder.append("\t");
         _builder.append(x, "");
-        System.out.println(_builder.toString());
+        writer.println(_builder.toString());
         int _plus = (i + 1);
         i = _plus;
       }
     }
+    writer.close();
+    InputOutput.<String>println("finished");
   }
   
   public static Configuration createConfiguration(final Procedure1<Configuration> initializer) {

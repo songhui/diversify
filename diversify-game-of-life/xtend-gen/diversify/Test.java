@@ -6,6 +6,7 @@ import diversify.Service;
 import diversify.TheMatrix;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 
 @SuppressWarnings("all")
@@ -16,32 +17,29 @@ public class Test {
     for (final Integer x : _upTo) {
       System.out.println(x);
     }
-    Platform _platform = new Platform("p1");
-    final Platform p1 = _platform;
-    Platform _platform_1 = new Platform("p2");
-    final Platform p2 = _platform_1;
-    ArrayList<Service> _arrayList = new ArrayList<Service>();
-    final ArrayList<Service> s = _arrayList;
-    int i = 10;
-    boolean _greaterThan = (i > 0);
-    boolean _while = _greaterThan;
-    while (_while) {
-      {
-        Service _service = new Service();
-        s.add(_service);
-        int _minus_1 = (i - 1);
-        i = _minus_1;
-      }
-      boolean _greaterThan_1 = (i > 0);
-      _while = _greaterThan_1;
+    ArrayList<Platform> _arrayList = new ArrayList<Platform>();
+    final ArrayList<Platform> p = _arrayList;
+    IntegerRange _upTo_1 = new IntegerRange(1, 10);
+    for (final Integer i : _upTo_1) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("p");
+      _builder.append(i, "");
+      Platform _platform = new Platform(_builder.toString());
+      p.add(_platform);
     }
+    ArrayList<Service> _arrayList_1 = new ArrayList<Service>();
+    final ArrayList<Service> s = _arrayList_1;
+    IntegerRange _upTo_2 = new IntegerRange(1, 10);
+    for (final Integer i_1 : _upTo_2) {
+      Service _service = new Service();
+      s.add(_service);
+    }
+    Platform _get = p.get(0);
     List<Service> _subList = s.subList(0, 6);
-    p1.providedServices.addAll(_subList);
-    List<Service> _subList_1 = s.subList(5, 10);
-    p2.providedServices.addAll(_subList_1);
+    _get.providedServices.addAll(_subList);
     TheMatrix _theMatrix = new TheMatrix(null, null);
     final TheMatrix matrix = _theMatrix;
-    double _onePairPltfDiversity = MutatePlatformGraph.getOnePairPltfDiversity(p1, p1);
-    System.out.println(_onePairPltfDiversity);
+    double _pltfDiversity = MutatePlatformGraph.getPltfDiversity(p);
+    System.out.println(_pltfDiversity);
   }
 }

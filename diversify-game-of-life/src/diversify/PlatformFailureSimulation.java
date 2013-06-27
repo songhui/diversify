@@ -21,15 +21,16 @@ public class PlatformFailureSimulation implements ISimulation<int[][]> {
     //improve similarity
     MutatePlatformGraph mutator = MutatePlatformGraph.INSTANCE;
     if(mutator !=null){
-	    System.out.print("Before: "+mutator.getPltfDiversity(g.platforms));
+	    //System.out.print("Before: "+mutator.getPltfDiversity(g.platforms));
 	    mutator.reCreatePlatforms(g.platforms, g.services);
-	    System.out.println("After: "+mutator.getPltfDiversity(g.platforms));
+	    //System.out.println("After: "+mutator.getPltfDiversity(g.platforms));
     }
     
     ServicesDependencies depender = ServicesDependencies.INSTANCE;
     if(depender != null){
     	depender.reCreatePlatforms(g.platforms, g.services);
     }
+    
     
     MutatePlatformGraph.dissims.add(
     		MutatePlatformGraph.getPltfDiversity(g.platforms));

@@ -10,19 +10,21 @@ class Test {
 			System::out.println(x)
 		}
 		
-		val p1 = new Platform("p1")
-		val p2 = new Platform("p2")
+		val p = new ArrayList<Platform>();
+		for(i:1..10)
+			p.add(new Platform('''p«i»'''));
+		
 		val s = new ArrayList<Service>()
-		var i = 10
-		while(i > 0){
+		
+		for(i:1..10){
 			s.add(new Service())
-			i = i-1
 		}
 		
-		p1.providedServices.addAll(s.subList(0,6))
-		p2.providedServices.addAll(s.subList(5,10))
+		p.get(0).providedServices.addAll(s.subList(0,6))
+		//p2.providedServices.addAll(s.subList(5,10))
+		
 		
 		val matrix = new TheMatrix(null,null)
-		System::out.println(MutatePlatformGraph::getOnePairPltfDiversity(p1,p1))
+		System::out.println(MutatePlatformGraph::getPltfDiversity(p))
 	}
 }

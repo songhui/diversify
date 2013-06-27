@@ -32,7 +32,7 @@ public class MutatePlatformGraph {
   
   public int NSEED = 3;
   
-  public int NADDNEW = 5;
+  public int NADDNEW = 3;
   
   public int NREMOVE = 3;
   
@@ -147,10 +147,13 @@ public class MutatePlatformGraph {
                 boolean _greaterEqualsThan = (place >= existSize);
                 if (_greaterEqualsThan) {
                   _matched=true;
-                  int _size_2 = services.size();
-                  int _nextInt_2 = this.random.nextInt(_size_2);
-                  Service _get = services.get(_nextInt_2);
-                  np.providedServices.add(_get);
+                  boolean _lessThan_1 = (existSize < this.config.NMAXSERVICESPLATFORMS);
+                  if (_lessThan_1) {
+                    int _size_2 = services.size();
+                    int _nextInt_2 = this.random.nextInt(_size_2);
+                    Service _get = services.get(_nextInt_2);
+                    np.providedServices.add(_get);
+                  }
                 }
               }
               if (!_matched) {

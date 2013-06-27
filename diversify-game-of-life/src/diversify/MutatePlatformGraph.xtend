@@ -15,7 +15,7 @@ class MutatePlatformGraph{
 	}
 	
 	public int NSEED = 3
-	public int NADDNEW = 5
+	public int NADDNEW = 3
 	public int NREMOVE = 3
 	public int NMUTATION = 3
 	Random random = new Random()
@@ -64,7 +64,8 @@ class MutatePlatformGraph{
 						if(np.providedServices.size > 1)
 							np.providedServices.remove(0)
 					case place >= existSize: 
-						np.providedServices.add(services.get(random.nextInt(services.size)))
+						if(existSize < config.NMAXSERVICESPLATFORMS)
+							np.providedServices.add(services.get(random.nextInt(services.size)))
 					default:{
 						val service = services.get(random.nextInt(services.size))
 						np.providedServices.set(place,service)

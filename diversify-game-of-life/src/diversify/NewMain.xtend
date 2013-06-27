@@ -3,6 +3,7 @@ package diversify
 import org.eclipse.xtext.xbase.lib.Procedures$Procedure1
 import java.util.List
 import java.util.ArrayList
+import java.io.PrintWriter
 
 class NewMain {
 	
@@ -18,11 +19,13 @@ class NewMain {
 			ordering = PlatformOrdering::DOCUMENT_ORDER
 		]
 		var mutator = new MutatePlatformGraph(config)[
-			NSEED = 5
-			NMUTATION = 10
+			NSEED = 1
+			NMUTATION = 2
+			NADDNEW = 3
+			NREMOVE = 3
 		]
 		var depender = new ServicesDependencies(config)[
-			NDEP = 400
+			NDEP = 100
 		]
 		
 		
@@ -31,7 +34,7 @@ class NewMain {
 		ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
-		val sim = new RepeatedSimulation(50) //200
+		val sim = new RepeatedSimulation(200) //200
 		
 		//which simulator
 		sim.sim = new PlatformFailureSimulation()		
@@ -39,7 +42,7 @@ class NewMain {
 		
 		val result = sim.run().simulationResult
 		
-    	new Plot().run(result, sim.description())
+    	//new Plot().run(result, sim.description())
     	val plain = getPlainResult(result)
     	val average = getAverage(plain)
     	var i = 0
@@ -50,12 +53,14 @@ class NewMain {
     	println(dissims)
     	println(dissims.reduce(x,y|x+y)/dissims.size)
     	
+    	//val writer = new PrintWriter('''general/data/mut-«mutator.NMUTATION».data'''.toString, "UTF-8");
+    	val writer = System::out
     	for(x : average){
-    		System::out.println('''«i»	«x»''')
+    		writer.println('''«i»	«x»''')
     		i = i + 1
     	}
-    	
-		
+    	writer.close
+		println("finished")
 	}
 
 	def static createConfiguration(Procedure1<Configuration> initializer){

@@ -1,0 +1,195 @@
+\documentclass{article}
+
+\def\dissim{{\mathsf{dissim}}}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\begin{document}
+
+\title{Dissimilarity between Platforms}
+
+\maketitle
+
+\section{Definition of Dissimilarity}
+
+We suppose how the two platforms are similar to each other is also a measure to the diversity of the whole systems. If two platforms provide exactly the same set of services, then we could say that they are the same, and the \emph{dissimilarity} between them is 0. Otherwise, if they provide completely different sets of services, the dissimilarity is ultimate, say 1. We try to avoid using \emph{diversity} here because we have the feeling that merely the difference between platforms (or species) do not really mean diversity...
+
+So the dissimilarity between a pair of platforms is defined as follows.
+
+\[
+	\dissim(p_1, p_2) = 1 - \frac{\left|p_1.ser \cap p_2.ser\right| }{\left|p_1.ser \cup p_2.ser\right| }
+\]
+
+The dissimilarity of the whole system is the average dissimilarity of every pair of platforms.
+
+\[\dissim(P) = \frac{\sum_{p_1,p_2 \in P}\dissim(p_1, p_2)}{\left| P \right| * (\left| P \right|-1)}\]
+
+
+\section{Experiment Design}
+
+Two experiments:
+
+\begin{enumerate}
+
+\item
+\textbf{Kill Platforms:} The original one to kill platforms one by one, and see how many applications left.
+
+\item
+\textbf{Game of Life:} Suppose the platform may meet some failure and lose some of its services (10 \%), but it has the ability to reboot this service, only after a short time period (0-10). An app dies if there is no platform to support it, and a platform dies after it has no application to support for a while (3). In such a configuration, a platform could act as another one's backup for a while, if they support the same application. The dissimilarities are between 0.5 and 0.7 .
+
+\end{enumerate}
+
+
+
+
+\section{Configuration}
+
+Two configurations.
+
+\begin{enumerate}
+\item \textbf{random:} Services are randomly distributed to each platform. The dissimilarity is quite high ( 0.92 - 0.95).
+
+\item \textbf{mutated:} Randomly generate a number of seeds (3), and then each new platform is mutated from an existing one. It has a possibility to perform 0 to 3 times of mutation, each time to remove a service (10 \%), add new one (15\%), or change any of the existing one. 
+\end{enumerate}
+
+\begin{enumerate}
+\item Base, dissims = 0.96
+\item dep 100, dissims = 0.93
+\item dep 238, dissims = 0.82
+\item dep 300, dissims = 0.79
+\item dep 400, dissims = 0.77
+\item dep 500, dissims = 0.76
+\end{enumerate}
+
+\begin{figure}
+
+\begin{tikzpicture}[y=0.03cm, x=.21cm,font=\sffamily]
+ 	%axis
+	\draw (0,0) -- coordinate (x axis mid) (51,0);
+   	\draw (0,0) -- coordinate (y axis mid) (0,250);
+	
+
+   	%ticks
+   	\foreach \x in {0,10,...,50}
+   		\draw (50-\x,1pt) -- (50-\x,-3pt)
+		node[anchor=north] {\x};
+   	\foreach \y in {0,50,...,250}
+   		\draw (1pt,\y) -- (-3pt,\y) 
+		node[anchor=east] {\y}; 
+
+
+	%labels      
+	\node[below=0.4cm] at (x axis mid) {Platforms};
+	\node[rotate=90, above=0.6cm] at (y axis mid) {Applications};
+
+	%plots
+
+    \draw[ultra thick] plot
+		file {data/base.data};
+		
+	\draw[thick, color = green] plot
+			file {data/dep-50.data};
+		
+	\draw[thick, color = blue] plot
+		file {data/dep-100.data};
+		
+	\draw[thick] plot
+			file {data/dep-200.data};
+			
+		
+	\draw[thick, color = red] plot
+			file {data/dep-238.data};
+			
+	\draw[thick] plot
+			file {data/dep-500.data};
+			
+	\draw[thick] plot
+			file {data/dep-300.data};
+			
+	\draw[thick] plot
+			file {data/dep-400.data};
+
+	
+\end{tikzpicture}
+
+\end{figure}
+
+
+
+\begin{enumerate}
+\item 500->0.9584
+\item 300->0.955
+\item 100->0.952
+\item 50 ->0.944
+\item 30 ->0.917
+\item 20 - 0.881
+\item 10 - 0.763
+\item 5 - 0.60
+\item 1 - 0.26
+\end{enumerate}
+
+
+\begin{figure}
+
+\begin{tikzpicture}[y=0.03cm, x=.21cm,font=\sffamily]
+ 	%axis
+	\draw (0,0) -- coordinate (x axis mid) (51,0);
+   	\draw (0,0) -- coordinate (y axis mid) (0,250);
+	
+
+   	%ticks
+   	\foreach \x in {0,10,...,50}
+   		\draw (50-\x,1pt) -- (50-\x,-3pt)
+		node[anchor=north] {\x};
+   	\foreach \y in {0,50,...,250}
+   		\draw (1pt,\y) -- (-3pt,\y) 
+		node[anchor=east] {\y}; 
+
+
+	%labels      
+	\node[below=0.4cm] at (x axis mid) {Platforms};
+	\node[rotate=90, above=0.6cm] at (y axis mid) {Applications};
+
+	%plots
+
+    \draw[ultra thick] plot
+		file {data/base.data};
+		
+	\draw[thick, color = green] plot
+		file {data/mut-500.data};
+		
+	\draw[thick, color = blue] plot
+			file {data/mut-300.data};
+		
+	\draw[thick] plot
+			file {data/mut-50.data};
+		
+	\draw[thick, color = red] plot
+		file {data/mut-100.data};
+		
+	\draw[thick] plot
+		file {data/mut-30.data};
+				
+
+			
+	\draw[thick] plot
+		file {data/mut-20.data};
+			
+	\draw[thick] plot
+		file {data/mut-10.data};
+		
+	\draw[thick] plot
+		file {data/mut-5.data};
+			
+	\draw[thick] plot
+		file {data/mut-1.data};
+	
+\end{tikzpicture}
+
+\caption{Platforms from mutation}
+
+\end{figure}
+
+
+\end{document}
