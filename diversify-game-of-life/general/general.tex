@@ -192,4 +192,62 @@ Two configurations.
 \end{figure}
 
 
+\begin{figure}
+\begin{tikzpicture}[y=0.1cm, x=.01cm,font=\sffamily]
+ 	%axis
+	\draw (0,0) -- coordinate (x axis mid) (1000,0);
+   	\draw (0,0) -- coordinate (y axis mid) (0,200);
+	
+
+   	%ticks
+   	\foreach \x in {0,100,...,1000}
+   		\draw (\x,1pt) -- (\x,-3pt)
+		node[anchor=north] {\x};
+   	\foreach \y in {0,50,...,200}
+   		\draw (1pt,\y) -- (-3pt,\y) 
+		node[anchor=east] {\y}; 
+
+
+	%labels      
+	\node[below=0.4cm] at (x axis mid) {Platforms};
+	\node[rotate=90, above=0.6cm] at (y axis mid) {Applications};
+
+	%plots
+
+    \draw[ultra thick] plot
+		file {data/gol-base.data};
+		
+	\draw[thick, color = green] plot
+		file {data/gol-500.data};
+		
+	\draw[thick, color = blue] plot
+			file {data/gol-300.data};
+		
+	\draw[thick, color = red] plot
+		file {data/gol-100.data};
+		
+	\draw[dashed, color = green] plot
+		file {data/gol-50.data};
+				
+
+			
+	\draw[dashed, color = blue] plot
+		file {data/gol-20.data};
+			
+	\draw[dashed, color = red] plot
+		file {data/gol-10.data};
+		
+	\draw[dashed] plot
+		file {data/gol-5.data};
+			
+
+	
+\end{tikzpicture}
+
+%\caption{Platforms from mutation}
+
+\end{figure}
+
+
+
 \end{document}

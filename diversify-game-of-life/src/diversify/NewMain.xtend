@@ -20,7 +20,7 @@ class NewMain {
 		]
 		var mutator = new MutatePlatformGraph(config)[
 			NSEED = 1
-			NMUTATION = 2
+			NMUTATION = 5
 			NADDNEW = 3
 			NREMOVE = 3
 		]
@@ -29,16 +29,16 @@ class NewMain {
 		]
 		
 		
-		//MutatePlatformGraph::setInstance(mutator)     //mute (not commented) or random (commented)
+		MutatePlatformGraph::setInstance(mutator)     //mute (not commented) or random (commented)
 		
-		ServicesDependencies::setInstance(depender)   //dependent or not (commented)
+		//ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
 		val sim = new RepeatedSimulation(200) //200
 		
 		//which simulator
-		sim.sim = new PlatformFailureSimulation()		
-		//sim.sim = new GameOfLifeSimulation()
+		//sim.sim = new PlatformFailureSimulation()		
+		sim.sim = new GameOfLifeSimulation()
 		
 		val result = sim.run().simulationResult
 		
@@ -53,8 +53,8 @@ class NewMain {
     	println(dissims)
     	println(dissims.reduce(x,y|x+y)/dissims.size)
     	
-    	//val writer = new PrintWriter('''general/data/mut-«mutator.NMUTATION».data'''.toString, "UTF-8");
-    	val writer = System::out
+    	val writer = new PrintWriter('''general/data/gol-«mutator.NMUTATION».data'''.toString, "UTF-8");
+    	//val writer = System::out
     	for(x : average){
     		writer.println('''«i»	«x»''')
     		i = i + 1

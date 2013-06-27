@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -178,12 +177,8 @@ public class TheMatrix {
       if (_notEquals) {
         MutatePlatformGraph.INSTANCE.reCreatePlatforms(this.graph.platforms, this.graph.services);
       }
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append(TheMatrix.round, "");
-      _builder.append(": ");
       double _pltfDiversity = MutatePlatformGraph.getPltfDiversity(this.graph.platforms);
-      _builder.append(_pltfDiversity, "");
-      System.out.println(_builder.toString());
+      MutatePlatformGraph.dissims.add(Double.valueOf(_pltfDiversity));
       int _plus = (TheMatrix.round + 1);
       TheMatrix.round = _plus;
       int time = 0;

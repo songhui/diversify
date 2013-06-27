@@ -72,8 +72,8 @@ class TheMatrix {
 		
 		if(MutatePlatformGraph::INSTANCE!=null)
 			MutatePlatformGraph::INSTANCE.reCreatePlatforms(graph.platforms,graph.services)
-		
-		System::out.println('''«round»: «getPltfDiversity(graph.platforms)»''')
+		MutatePlatformGraph::dissims.add(getPltfDiversity(graph.platforms))
+		//System::out.println('''«round»: «getPltfDiversity(graph.platforms)»''')
 		round = round + 1
 		var time = 0;
 		val List<Integer> nApps = new ArrayList<Integer>()

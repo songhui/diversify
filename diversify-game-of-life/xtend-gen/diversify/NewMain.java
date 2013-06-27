@@ -1,18 +1,19 @@
 package diversify;
 
 import diversify.Configuration;
+import diversify.GameOfLifeSimulation;
 import diversify.ISimulation;
 import diversify.MutatePlatformGraph;
-import diversify.PlatformFailureSimulation;
 import diversify.PlatformOrdering;
 import diversify.RepeatedSimulation;
 import diversify.ServicesDependencies;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.DoubleExtensions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.Functions.Function2;
 import org.eclipse.xtext.xbase.lib.InputOutput;
@@ -28,70 +29,80 @@ public class NewMain {
   }
   
   public static void main(final String[] args) {
-    final Procedure1<Configuration> _function = new Procedure1<Configuration>() {
-        public void apply(final Configuration it) {
-          it.NPLATFORMS = 50;
-          it.NSERVICES = 200;
-          it.NAPPS = 1000;
-          it.NMAXSERVICESAPP = 7;
-          it.NMAXSERVICESPLATFORMS = 30;
-          it.ordering = PlatformOrdering.DOCUMENT_ORDER;
+    try {
+      final Procedure1<Configuration> _function = new Procedure1<Configuration>() {
+          public void apply(final Configuration it) {
+            it.NPLATFORMS = 50;
+            it.NSERVICES = 200;
+            it.NAPPS = 1000;
+            it.NMAXSERVICESAPP = 7;
+            it.NMAXSERVICESPLATFORMS = 30;
+            it.ordering = PlatformOrdering.DOCUMENT_ORDER;
+          }
+        };
+      final Configuration config = NewMain.createConfiguration(_function);
+      final Procedure1<MutatePlatformGraph> _function_1 = new Procedure1<MutatePlatformGraph>() {
+          public void apply(final MutatePlatformGraph it) {
+            it.NSEED = 1;
+            it.NMUTATION = 5;
+            it.NADDNEW = 3;
+            it.NREMOVE = 3;
+          }
+        };
+      MutatePlatformGraph _mutatePlatformGraph = new MutatePlatformGraph(config, _function_1);
+      MutatePlatformGraph mutator = _mutatePlatformGraph;
+      final Procedure1<ServicesDependencies> _function_2 = new Procedure1<ServicesDependencies>() {
+          public void apply(final ServicesDependencies it) {
+            it.NDEP = 100;
+          }
+        };
+      ServicesDependencies _servicesDependencies = new ServicesDependencies(config, _function_2);
+      ServicesDependencies depender = _servicesDependencies;
+      MutatePlatformGraph.setInstance(mutator);
+      RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(200);
+      final RepeatedSimulation sim = _repeatedSimulation;
+      GameOfLifeSimulation _gameOfLifeSimulation = new GameOfLifeSimulation();
+      sim.sim = _gameOfLifeSimulation;
+      ISimulation<List<int[][]>> _run = sim.run();
+      final List<int[][]> result = _run.getSimulationResult();
+      final ArrayList<ArrayList<Integer>> plain = NewMain.getPlainResult(result);
+      final List<Double> average = NewMain.getAverage(plain);
+      int i = 0;
+      final List<Double> dissims = MutatePlatformGraph.dissims;
+      InputOutput.<List<Double>>println(dissims);
+      final Function2<Double,Double,Double> _function_3 = new Function2<Double,Double,Double>() {
+          public Double apply(final Double x, final Double y) {
+            double _plus = DoubleExtensions.operator_plus(x, y);
+            return Double.valueOf(_plus);
+          }
+        };
+      Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_3);
+      int _size = dissims.size();
+      double _divide = ((_reduce).doubleValue() / _size);
+      InputOutput.<Double>println(Double.valueOf(_divide));
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("general/data/gol-");
+      _builder.append(mutator.NMUTATION, "");
+      _builder.append(".data");
+      String _string = _builder.toString();
+      PrintWriter _printWriter = new PrintWriter(_string, "UTF-8");
+      final PrintWriter writer = _printWriter;
+      for (final Double x : average) {
+        {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append(i, "");
+          _builder_1.append("\t");
+          _builder_1.append(x, "");
+          writer.println(_builder_1.toString());
+          int _plus = (i + 1);
+          i = _plus;
         }
-      };
-    final Configuration config = NewMain.createConfiguration(_function);
-    final Procedure1<MutatePlatformGraph> _function_1 = new Procedure1<MutatePlatformGraph>() {
-        public void apply(final MutatePlatformGraph it) {
-          it.NSEED = 1;
-          it.NMUTATION = 2;
-          it.NADDNEW = 3;
-          it.NREMOVE = 3;
-        }
-      };
-    MutatePlatformGraph _mutatePlatformGraph = new MutatePlatformGraph(config, _function_1);
-    MutatePlatformGraph mutator = _mutatePlatformGraph;
-    final Procedure1<ServicesDependencies> _function_2 = new Procedure1<ServicesDependencies>() {
-        public void apply(final ServicesDependencies it) {
-          it.NDEP = 100;
-        }
-      };
-    ServicesDependencies _servicesDependencies = new ServicesDependencies(config, _function_2);
-    ServicesDependencies depender = _servicesDependencies;
-    ServicesDependencies.setInstance(depender);
-    RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(200);
-    final RepeatedSimulation sim = _repeatedSimulation;
-    PlatformFailureSimulation _platformFailureSimulation = new PlatformFailureSimulation();
-    sim.sim = _platformFailureSimulation;
-    ISimulation<List<int[][]>> _run = sim.run();
-    final List<int[][]> result = _run.getSimulationResult();
-    final ArrayList<ArrayList<Integer>> plain = NewMain.getPlainResult(result);
-    final List<Double> average = NewMain.getAverage(plain);
-    int i = 0;
-    final List<Double> dissims = MutatePlatformGraph.dissims;
-    InputOutput.<List<Double>>println(dissims);
-    final Function2<Double,Double,Double> _function_3 = new Function2<Double,Double,Double>() {
-        public Double apply(final Double x, final Double y) {
-          double _plus = DoubleExtensions.operator_plus(x, y);
-          return Double.valueOf(_plus);
-        }
-      };
-    Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_3);
-    int _size = dissims.size();
-    double _divide = ((_reduce).doubleValue() / _size);
-    InputOutput.<Double>println(Double.valueOf(_divide));
-    final PrintStream writer = System.out;
-    for (final Double x : average) {
-      {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append(i, "");
-        _builder.append("\t");
-        _builder.append(x, "");
-        writer.println(_builder.toString());
-        int _plus = (i + 1);
-        i = _plus;
       }
+      writer.close();
+      InputOutput.<String>println("finished");
+    } catch (Exception _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    writer.close();
-    InputOutput.<String>println("finished");
   }
   
   public static Configuration createConfiguration(final Procedure1<Configuration> initializer) {
