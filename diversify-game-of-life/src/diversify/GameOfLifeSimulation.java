@@ -6,12 +6,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+
 /** creates a mutualistic graph and simulates the failure of platforms */
 public class GameOfLifeSimulation implements ISimulation<int[][]> {
 
   int[][] data;
 
-  Configuration config = new Configuration();  
+  Configuration config = Configuration.INSTANCE;
+  
+  public GameOfLifeSimulation(){
+	  
+  }
+  
+  public GameOfLifeSimulation(Procedure1<Configuration> initializer){
+	  this();
+	  if(initializer!=null)
+		  initializer.apply(config);
+  }
 
   @Override
   public ISimulation<int[][]> run() {

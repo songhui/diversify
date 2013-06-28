@@ -5,6 +5,7 @@ import diversify.GameOfLifeSimulation;
 import diversify.ISimulation;
 import diversify.MutatePlatformGraph;
 import diversify.PlatformOrdering;
+import diversify.Plot;
 import diversify.RepeatedSimulation;
 import diversify.ServicesDependencies;
 import java.io.PrintWriter;
@@ -37,14 +38,14 @@ public class NewMain {
             it.NAPPS = 1000;
             it.NMAXSERVICESAPP = 7;
             it.NMAXSERVICESPLATFORMS = 30;
-            it.ordering = PlatformOrdering.DOCUMENT_ORDER;
+            it.ordering = PlatformOrdering.HASHCODE_ORDER;
           }
         };
       final Configuration config = NewMain.createConfiguration(_function);
       final Procedure1<MutatePlatformGraph> _function_1 = new Procedure1<MutatePlatformGraph>() {
           public void apply(final MutatePlatformGraph it) {
             it.NSEED = 1;
-            it.NMUTATION = 5;
+            it.NMUTATION = 50;
             it.NADDNEW = 3;
             it.NREMOVE = 3;
           }
@@ -59,24 +60,34 @@ public class NewMain {
       ServicesDependencies _servicesDependencies = new ServicesDependencies(config, _function_2);
       ServicesDependencies depender = _servicesDependencies;
       MutatePlatformGraph.setInstance(mutator);
-      RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(200);
+      RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(20);
       final RepeatedSimulation sim = _repeatedSimulation;
-      GameOfLifeSimulation _gameOfLifeSimulation = new GameOfLifeSimulation();
+      final Procedure1<Configuration> _function_3 = new Procedure1<Configuration>() {
+          public void apply(final Configuration it) {
+            it.NTOTALLIFE = 1000;
+            it.NMAXREBORN = 10;
+            it.NPERCENTDOWN = 10;
+          }
+        };
+      GameOfLifeSimulation _gameOfLifeSimulation = new GameOfLifeSimulation(_function_3);
       sim.sim = _gameOfLifeSimulation;
       ISimulation<List<int[][]>> _run = sim.run();
       final List<int[][]> result = _run.getSimulationResult();
+      Plot _plot = new Plot();
+      String _description = sim.description();
+      _plot.run(result, _description);
       final ArrayList<ArrayList<Integer>> plain = NewMain.getPlainResult(result);
       final List<Double> average = NewMain.getAverage(plain);
       int i = 0;
       final List<Double> dissims = MutatePlatformGraph.dissims;
       InputOutput.<List<Double>>println(dissims);
-      final Function2<Double,Double,Double> _function_3 = new Function2<Double,Double,Double>() {
+      final Function2<Double,Double,Double> _function_4 = new Function2<Double,Double,Double>() {
           public Double apply(final Double x, final Double y) {
             double _plus = DoubleExtensions.operator_plus(x, y);
             return Double.valueOf(_plus);
           }
         };
-      Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_3);
+      Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_4);
       int _size = dissims.size();
       double _divide = ((_reduce).doubleValue() / _size);
       InputOutput.<Double>println(Double.valueOf(_divide));

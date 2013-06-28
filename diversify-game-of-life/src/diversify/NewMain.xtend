@@ -16,11 +16,11 @@ class NewMain {
 			NAPPS = 1000
 			NMAXSERVICESAPP = 7
 			NMAXSERVICESPLATFORMS = 30
-			ordering = PlatformOrdering::DOCUMENT_ORDER
+			ordering = PlatformOrdering::HASHCODE_ORDER
 		]
 		var mutator = new MutatePlatformGraph(config)[
 			NSEED = 1
-			NMUTATION = 5
+			NMUTATION = 50
 			NADDNEW = 3
 			NREMOVE = 3
 		]
@@ -34,15 +34,19 @@ class NewMain {
 		//ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
-		val sim = new RepeatedSimulation(200) //200
+		val sim = new RepeatedSimulation(20) //200
 		
 		//which simulator
 		//sim.sim = new PlatformFailureSimulation()		
-		sim.sim = new GameOfLifeSimulation()
+		sim.sim = new GameOfLifeSimulation()[
+			  NTOTALLIFE = 1000
+  			  NMAXREBORN = 10
+  			  NPERCENTDOWN = 10
+		]
 		
 		val result = sim.run().simulationResult
 		
-    	//new Plot().run(result, sim.description())
+    	new Plot().run(result, sim.description())
     	val plain = getPlainResult(result)
     	val average = getAverage(plain)
     	var i = 0

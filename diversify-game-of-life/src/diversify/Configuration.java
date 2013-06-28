@@ -13,6 +13,7 @@ public class Configuration {
   int NTOTALLIFE = 1000;
   int NMAXREBORN = 10;
   int NPERCENTDOWN = 10;
+  
   int NSICKTODIE = 3;
 	
 	
@@ -36,7 +37,7 @@ public class Configuration {
   int NDEP = 0;
 
   /** orders platforms for sake of ordered platform failures */
-  PlatformOrdering ordering = PlatformOrdering.DOCUMENT_ORDER;
+  PlatformOrdering ordering = PlatformOrdering.HASHCODE_ORDER;
 
   
   @Override
