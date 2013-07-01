@@ -10,6 +10,9 @@ class MutatePlatformGraph{
 	
 	public static MutatePlatformGraph INSTANCE = null
 	public static List<Double> dissims = new ArrayList<Double>()
+	public static List<Integer> size = new ArrayList<Integer>()
+	
+	
 	def static setInstance(MutatePlatformGraph instance){
 		INSTANCE = instance
 	}

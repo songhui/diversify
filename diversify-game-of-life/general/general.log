@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.2.17)  28 JUN 2013 03:18
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.2.17)  1 JUL 2013 03:18
 entering extended mode
 **general.tex
 
@@ -350,16 +350,16 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
 
-LaTeX Warning: Float too large for page by 62.00877pt on input line 249.
+LaTeX Warning: Float too large for page by 95.41345pt on input line 249.
 
 [3] [4]
 (C:\Users\Hui\Documents\GitHub\diversify\diversify-game-of-life\general\general
 .aux) ) 
 Here is how much of TeX's memory you used:
- 16158 strings out of 494045
- 308378 string characters out of 3152423
- 485750 words of memory out of 3000000
- 19269 multiletter control sequences out of 15000+200000
+ 15511 strings out of 494045
+ 295683 string characters out of 3152423
+ 463207 words of memory out of 3000000
+ 18623 multiletter control sequences out of 15000+200000
  8839 words of font info for 31 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  56i,8n,55p,560b,637s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -374,7 +374,7 @@ nts/cm/cmr17.pfb><C:/tools/MiKTeX29/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:
 s/type1/public/amsfonts/cm/cmss10.pfb><C:/tools/MiKTeX29/fonts/type1/public/ams
 fonts/cm/cmsy10.pfb><C:/tools/MiKTeX29/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 ><C:/tools/MiKTeX29/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on general.pdf (4 pages, 211313 bytes).
+Output written on general.pdf (4 pages, 204063 bytes).
 PDF statistics:
  74 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

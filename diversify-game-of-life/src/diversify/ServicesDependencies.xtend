@@ -66,13 +66,16 @@ class ServicesDependencies {
 		generateDep(services)
 		val random = new Random()
 		for(p : platforms){
+			
 			val original = new ArrayList<Service>(p.providedServices)
+			val ceiling = random.nextInt(config.NMAXSERVICESPLATFORMS) + 9
+			//val ceiling = config.NMAXSERVICESPLATFORMS
 			p.providedServices.clear
 			var tries = original.size() * 10
-			while(p.providedServices.size < config.NMAXSERVICESPLATFORMS && tries > 0){
+			while(p.providedServices.size < ceiling && tries > 0){
 				val seed = original.get(random.nextInt(original.size()))
 				if(!p.providedServices.contains(seed)){
-					if(p.providedServices.size + seed.dep.size < config.NMAXSERVICESPLATFORMS){
+					if(p.providedServices.size + seed.dep.size < ceiling){
 						p.providedServices.add(seed)
 						p.providedServices.addAll(seed.dep)
 					}

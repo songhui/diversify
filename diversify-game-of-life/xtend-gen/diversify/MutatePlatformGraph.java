@@ -25,6 +25,13 @@ public class MutatePlatformGraph {
     }
   }.apply();
   
+  public static List<Integer> size = new Function0<List<Integer>>() {
+    public List<Integer> apply() {
+      ArrayList<Integer> _arrayList = new ArrayList<Integer>();
+      return _arrayList;
+    }
+  }.apply();
+  
   public static MutatePlatformGraph setInstance(final MutatePlatformGraph instance) {
     MutatePlatformGraph _INSTANCE = MutatePlatformGraph.INSTANCE = instance;
     return _INSTANCE;

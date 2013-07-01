@@ -135,12 +135,14 @@ public class ServicesDependencies {
       {
         ArrayList<Service> _arrayList = new ArrayList<Service>(p.providedServices);
         final ArrayList<Service> original = _arrayList;
+        int _nextInt = random.nextInt(this.config.NMAXSERVICESPLATFORMS);
+        final int ceiling = (_nextInt + 9);
         p.providedServices.clear();
         int _size = original.size();
         int tries = (_size * 10);
         boolean _and = false;
         int _size_1 = p.providedServices.size();
-        boolean _lessThan = (_size_1 < this.config.NMAXSERVICESPLATFORMS);
+        boolean _lessThan = (_size_1 < ceiling);
         if (!_lessThan) {
           _and = false;
         } else {
@@ -151,15 +153,15 @@ public class ServicesDependencies {
         while (_while) {
           {
             int _size_2 = original.size();
-            int _nextInt = random.nextInt(_size_2);
-            final Service seed = original.get(_nextInt);
+            int _nextInt_1 = random.nextInt(_size_2);
+            final Service seed = original.get(_nextInt_1);
             boolean _contains = p.providedServices.contains(seed);
             boolean _not = (!_contains);
             if (_not) {
               int _size_3 = p.providedServices.size();
               int _size_4 = seed.dep.size();
               int _plus = (_size_3 + _size_4);
-              boolean _lessThan_1 = (_plus < this.config.NMAXSERVICESPLATFORMS);
+              boolean _lessThan_1 = (_plus < ceiling);
               if (_lessThan_1) {
                 p.providedServices.add(seed);
                 p.providedServices.addAll(seed.dep);
@@ -170,7 +172,7 @@ public class ServicesDependencies {
           }
           boolean _and_1 = false;
           int _size_2 = p.providedServices.size();
-          boolean _lessThan_1 = (_size_2 < this.config.NMAXSERVICESPLATFORMS);
+          boolean _lessThan_1 = (_size_2 < ceiling);
           if (!_lessThan_1) {
             _and_1 = false;
           } else {

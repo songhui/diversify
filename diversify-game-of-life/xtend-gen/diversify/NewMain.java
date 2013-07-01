@@ -1,11 +1,10 @@
 package diversify;
 
 import diversify.Configuration;
-import diversify.GameOfLifeSimulation;
 import diversify.ISimulation;
 import diversify.MutatePlatformGraph;
+import diversify.PlatformFailureSimulation;
 import diversify.PlatformOrdering;
-import diversify.Plot;
 import diversify.RepeatedSimulation;
 import diversify.ServicesDependencies;
 import java.io.PrintWriter;
@@ -54,46 +53,54 @@ public class NewMain {
       MutatePlatformGraph mutator = _mutatePlatformGraph;
       final Procedure1<ServicesDependencies> _function_2 = new Procedure1<ServicesDependencies>() {
           public void apply(final ServicesDependencies it) {
-            it.NDEP = 100;
+            it.NDEP = 300;
           }
         };
       ServicesDependencies _servicesDependencies = new ServicesDependencies(config, _function_2);
       ServicesDependencies depender = _servicesDependencies;
-      MutatePlatformGraph.setInstance(mutator);
-      RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(20);
+      ServicesDependencies.setInstance(depender);
+      RepeatedSimulation _repeatedSimulation = new RepeatedSimulation(200);
       final RepeatedSimulation sim = _repeatedSimulation;
-      final Procedure1<Configuration> _function_3 = new Procedure1<Configuration>() {
-          public void apply(final Configuration it) {
-            it.NTOTALLIFE = 1000;
-            it.NMAXREBORN = 10;
-            it.NPERCENTDOWN = 10;
-          }
-        };
-      GameOfLifeSimulation _gameOfLifeSimulation = new GameOfLifeSimulation(_function_3);
-      sim.sim = _gameOfLifeSimulation;
+      PlatformFailureSimulation _platformFailureSimulation = new PlatformFailureSimulation();
+      sim.sim = _platformFailureSimulation;
       ISimulation<List<int[][]>> _run = sim.run();
       final List<int[][]> result = _run.getSimulationResult();
-      Plot _plot = new Plot();
-      String _description = sim.description();
-      _plot.run(result, _description);
       final ArrayList<ArrayList<Integer>> plain = NewMain.getPlainResult(result);
       final List<Double> average = NewMain.getAverage(plain);
       int i = 0;
       final List<Double> dissims = MutatePlatformGraph.dissims;
       InputOutput.<List<Double>>println(dissims);
-      final Function2<Double,Double,Double> _function_4 = new Function2<Double,Double,Double>() {
+      final Function2<Double,Double,Double> _function_3 = new Function2<Double,Double,Double>() {
           public Double apply(final Double x, final Double y) {
             double _plus = DoubleExtensions.operator_plus(x, y);
             return Double.valueOf(_plus);
           }
         };
-      Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_4);
+      Double _reduce = IterableExtensions.<Double>reduce(dissims, _function_3);
       int _size = dissims.size();
       double _divide = ((_reduce).doubleValue() / _size);
       InputOutput.<Double>println(Double.valueOf(_divide));
+      final List<Integer> sizes = MutatePlatformGraph.size;
+      boolean _isEmpty = sizes.isEmpty();
+      boolean _not = (!_isEmpty);
+      if (_not) {
+        InputOutput.<List<Integer>>println(sizes);
+        final Function2<Integer,Integer,Integer> _function_4 = new Function2<Integer,Integer,Integer>() {
+            public Integer apply(final Integer x, final Integer y) {
+              int _plus = ((x).intValue() + (y).intValue());
+              return Integer.valueOf(_plus);
+            }
+          };
+        Integer _reduce_1 = IterableExtensions.<Integer>reduce(sizes, _function_4);
+        double _doubleValue = _reduce_1.doubleValue();
+        int _size_1 = sizes.size();
+        double _divide_1 = (_doubleValue / _size_1);
+        double _divide_2 = (_divide_1 / Configuration.INSTANCE.NPLATFORMS);
+        InputOutput.<Double>println(Double.valueOf(_divide_2));
+      }
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("general/data/gol-");
-      _builder.append(mutator.NMUTATION, "");
+      _builder.append("general/data/ndep-");
+      _builder.append(depender.NDEP, "");
       _builder.append(".data");
       String _string = _builder.toString();
       PrintWriter _printWriter = new PrintWriter(_string, "UTF-8");

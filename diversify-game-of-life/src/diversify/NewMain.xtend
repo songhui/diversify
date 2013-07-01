@@ -25,28 +25,29 @@ class NewMain {
 			NREMOVE = 3
 		]
 		var depender = new ServicesDependencies(config)[
-			NDEP = 100
+			NDEP = 300
 		]
 		
 		
-		MutatePlatformGraph::setInstance(mutator)     //mute (not commented) or random (commented)
+		//MutatePlatformGraph::setInstance(mutator)     //mute (not commented) or random (commented)
 		
-		//ServicesDependencies::setInstance(depender)   //dependent or not (commented)
+		ServicesDependencies::setInstance(depender)   //dependent or not (commented)
 		
 		
-		val sim = new RepeatedSimulation(20) //200
+		val sim = new RepeatedSimulation(200) //200
 		
 		//which simulator
-		//sim.sim = new PlatformFailureSimulation()		
-		sim.sim = new GameOfLifeSimulation()[
-			  NTOTALLIFE = 1000
-  			  NMAXREBORN = 10
-  			  NPERCENTDOWN = 10
-		]
+		sim.sim = new PlatformFailureSimulation()		
+//		sim.sim = new GameOfLifeSimulation()[
+//			  NTOTALLIFE = 1000
+//  			  NMAXREBORN = 10
+//  			  NPERCENTDOWN = 10
+//		]
 		
 		val result = sim.run().simulationResult
 		
-    	new Plot().run(result, sim.description())
+    	//new Plot().run(result, sim.description())
+    	
     	val plain = getPlainResult(result)
     	val average = getAverage(plain)
     	var i = 0
@@ -57,7 +58,13 @@ class NewMain {
     	println(dissims)
     	println(dissims.reduce(x,y|x+y)/dissims.size)
     	
-    	val writer = new PrintWriter('''general/data/gol-«mutator.NMUTATION».data'''.toString, "UTF-8");
+    	val sizes = MutatePlatformGraph::size
+    	if(!sizes.empty){
+    		println(sizes)
+    		println(sizes.reduce(x,y|x+y).doubleValue / sizes.size / Configuration::INSTANCE.NPLATFORMS)
+    	}
+    	
+    	val writer = new PrintWriter('''general/data/ndep-«depender.NDEP».data'''.toString, "UTF-8");
     	//val writer = System::out
     	for(x : average){
     		writer.println('''«i»	«x»''')
@@ -93,6 +100,6 @@ class NewMain {
 			for(j:0..result.get(i).size-1)
 				total.set(j, total.get(j) + result.get(i).get(j))
 				
-		total.map(e | e.doubleValue / result.size)
+		total.map(e | e.doubleValue / result.size )
 	}
 }
